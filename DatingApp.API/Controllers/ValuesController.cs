@@ -23,6 +23,7 @@ namespace DatingApp.API.Controllers
             _context = context;
 
         }
+        [AllowAnonymous]
         [HttpGet]
         // using ActionResult<IEnumerable<string>> Get() just can return a string 
         // while using IActionResult can return an TTP RESPONSE to the client
