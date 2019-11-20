@@ -41,38 +41,39 @@ namespace DatingApp.API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDto userForLoginDto)
         {
-            // lower case the user name because we store the lower case of username in the database 
-            var userFromRepo = await _repo.Login(userForLoginDto.Username.ToLower(), userForLoginDto.Password);
-            if (userFromRepo == null)// the user name not exits in the database or the the password is invalid
-                return Unauthorized();// don't let the user know if the user name exits and the password is invalid
-            //build up a token to get a return from the user
-            var claims = new[]
-            {
-                // claim contain user Id and User name
-               new Claim(ClaimTypes.NameIdentifier, userFromRepo.Id.ToString()),// NameIdentifier is probally the most approciate type for Id
-               new Claim(ClaimTypes.Name, userFromRepo.Username)
-           };
-            // create a key user for validation whether the tokens are valid token when it comes back from the server
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:Token").Value));
-            // create credentials by hasing key 
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-            // create a tokenDescriptor 
-            // with Subject, Expires, and SigningCredentials
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddDays(1),// the tokenDescriptor will expire after 24 hours
-                SigningCredentials = creds
+                // lower case the user name because we store the lower case of username in the database 
+                var userFromRepo = await _repo.Login(userForLoginDto.Username.ToLower(), userForLoginDto.Password);
+                if (userFromRepo == null) { // the user name not exits in the database or the the password is invalid
+                        return Unauthorized();// don't let the user know if the user name exits and the password is invalid
+                }
+                //build up a token to get a return from the user
+                var claims = new[]
+                {
+                    // claim contain user Id and User name
+                new Claim(ClaimTypes.NameIdentifier, userFromRepo.Id.ToString()),// NameIdentifier is probally the most approciate type for Id
+                new Claim(ClaimTypes.Name, userFromRepo.Username)
             };
-            var tokenHandler = new JwtSecurityTokenHandler();
-            // using tokenDescriptor to create a token
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            //write token to the response and send it back to the client
-            return Ok(new
-            {
-                token = tokenHandler.WriteToken(token)
-            }
-            );
+                // create a key user for validation whether the tokens are valid token when it comes back from the server
+                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:Token").Value));
+                // create credentials by hasing key 
+                var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+                // create a tokenDescriptor 
+                // with Subject, Expires, and SigningCredentials
+                var tokenDescriptor = new SecurityTokenDescriptor
+                {
+                    Subject = new ClaimsIdentity(claims),
+                    Expires = DateTime.Now.AddDays(1),// the tokenDescriptor will expire after 24 hours
+                    SigningCredentials = creds
+                };
+                var tokenHandler = new JwtSecurityTokenHandler();
+                // using tokenDescriptor to create a token
+                var token = tokenHandler.CreateToken(tokenDescriptor);
+                //write token to the response and send it back to the client
+                return Ok(new
+                {
+                    token = tokenHandler.WriteToken(token)
+                }
+                );
         }
     }
 }
