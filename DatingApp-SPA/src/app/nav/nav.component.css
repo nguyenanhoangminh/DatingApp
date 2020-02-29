@@ -1,0 +1,4 @@
+ /* add mouse pointer for drop down toggle */
+.dropdown-toggle, .dropdown-item{
+    cursor: pointer;
+}

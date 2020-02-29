@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '_service/auth.service';
+import { AlertifyService } from '_service/alertify.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nav',
@@ -9,7 +11,8 @@ import { AuthService } from '_service/auth.service';
 export class NavComponent implements OnInit {
   model: any = {};
 
-  constructor(private authServices: AuthService) { }
+  constructor(public authServices: AuthService, private alertify: AlertifyService,
+     private router: Router) { }
 
   ngOnInit() {
   }
@@ -18,22 +21,22 @@ export class NavComponent implements OnInit {
     // subcribe it if it next login success
     // if it error login fail
     this.authServices.login(this.model).subscribe(next => {
-      console.log('logged in successfully');
+      this.alertify.success('logged in successfully');
     }, error =>{
-      console.log(error);
+      this.alertify.error(error);
+    }, () => {
+      this.router.navigate(['/members'])
     });
   }
   // loggedIn function to check whether the users are login or not
   loggedIn() {
-    // get the token we store in localStorage earlier
-    const token = localStorage.getItem('token');
-    // return true if token is not null
-    return !!token;
+    return this.authServices.loggedIn();
   }
   // logout function to clear the token
   logout() {
     // clear the token we store in localStorage earlier
     localStorage.removeItem('token');
-    console.log('loggged out');
+    this.alertify.message('loggged out');
+    this.router.navigate(['/home']);
   }
 }
