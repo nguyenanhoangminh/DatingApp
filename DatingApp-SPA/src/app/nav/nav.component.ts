@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '_service/auth.service';
-import { AlertifyService } from '_service/alertify.service';
+import { AuthService } from 'src/app/_service/auth.service';
+import { AlertifyService } from 'src/app/_service/alertify.service';
 import { Router } from '@angular/router';
 
 @Component({
