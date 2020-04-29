@@ -17,6 +17,10 @@
 
   <!-- if users are not logged in hide the dropdown -->
   <div *ngIf="loggedIn()" class="dropdown" dropdown>
+      <!--users main photo -->
+      <span class="mr-1">
+        <img src="{{photoUrl}}">
+      </span>
       <a class="dropdown-toggle text-light" dropdownToggle>
           <!-- show the userName of the user when user login -->
         Welcome {{authServices.decodedToken?.unique_name | titlecase}}
