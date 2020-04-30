@@ -29,6 +29,7 @@ import { MemberEditComponent } from './members/member-list/member-edit/member-ed
 import { MemberEditResolver } from './resolver/member-edit.resolver';
 import { PreventUnsavedChages } from './_guards/prevent-unsaved-unchages';
 import { PhotoEditorComponent } from './members/member-list/photo-editor/photo-editor.component';
+import {TimeAgoPipe} from 'time-ago-pipe';
 
 export function tokenGetter()
 {
@@ -52,7 +53,8 @@ export class CustomHammerConfig extends HammerGestureConfig {
       MemberCardComponent,
       MemberDetailComponent,
       MemberEditComponent,
-      PhotoEditorComponent
+      PhotoEditorComponent,
+      TimeAgoPipe
    ],
    imports: [
       BrowserModule,

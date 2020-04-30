@@ -50,8 +50,8 @@ namespace DatingApp.API
                     ValidateAudience = false
                 };
             });
-            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            //.AddJwtBearer 
+            // create a new instance of this per request and also log user activity
+            services.AddScoped<LogUserActivity>(); 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
