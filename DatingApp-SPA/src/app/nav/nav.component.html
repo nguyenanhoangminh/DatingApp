@@ -19,7 +19,7 @@
   <div *ngIf="loggedIn()" class="dropdown" dropdown>
       <!--users main photo -->
       <span class="mr-1">
-        <img src="{{photoUrl}}">
+        <img src="{{photoUrl|| '../../../assets/original.png'}}">
       </span>
       <a class="dropdown-toggle text-light" dropdownToggle>
           <!-- show the userName of the user when user login -->

@@ -26,8 +26,8 @@ export class AuthService {
     // pass the string of photoUrl it will update a new photo
     this.photoUrl.next(photoUrl);
   }
-  register(model: any) {
-     return this.http.post(this.baseUrl + 'register', model);
+  register(user: User) {
+     return this.http.post(this.baseUrl + 'register', user);
   }
 
   login(model: any) {
